@@ -80,7 +80,7 @@ typings/
 # FuseBox cache
 .fusebox/
 
-.distribution/*
+distribution/*
 
 ### VisualStudioCode ###
 .vscode/*
