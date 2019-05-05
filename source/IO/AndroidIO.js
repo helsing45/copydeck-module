@@ -8,8 +8,7 @@ class AndroidIO extends IO {
 
     read(filePath) {
         var paths = this._getFilePaths(filePath);
-        for (let index = 0; index < paths.length; index++) {
-            const path = paths[index];
+        paths.forEach(path => {
             var splittedPath = path.split('/');
             var key = splittedPath[splittedPath.length - 2];
             if (key == DEFAULT_FOLDER_NAME) {
@@ -17,8 +16,8 @@ class AndroidIO extends IO {
             } else {
                 key = key.replace(DEFAULT_FOLDER_NAME + "-", "");
             }
-            this._files[key] = fs.readFileSync(path, 'utf-8')
-        }
+            this._files[key] = fs.readFileSync(path, 'utf-8');
+        });
     }
 
     write(outputPath) {
@@ -35,7 +34,7 @@ class AndroidIO extends IO {
                     if (err) {
                         console.log(err);
                     }
-                })
+                });
             }
         }
     }
