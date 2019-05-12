@@ -1,4 +1,5 @@
 import ConversionItem from '../model/ConversionItem';
+import {distinct} from '../utils/ArrayUtils';
 
 const csv = require('csvtojson')
 const LocalCode = require('locale-code')
@@ -140,21 +141,7 @@ class CsvMapTransformation {
         });
 
         //return only unique key
-        return this._distinct(columns);
-    }
-
-    _distinct(list) {
-        let length = list.length,
-            result = [],
-            seen = new Set();
-        outer:
-            for (let index = 0; index < length; index++) {
-                let value = list[index];
-                if (seen.has(value)) continue outer;
-                seen.add(value);
-                result.push(value);
-            }
-        return result;
+        return distinct(columns);
     }
 
     _printRow(item, columns){

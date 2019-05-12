@@ -25,6 +25,7 @@
   "dependencies": {
     "csvtojson": "^2.0.8",
     "iso-639-1": "^2.0.5",
-    "locale-code": "^2.0.2"
+    "locale-code": "^2.0.2",
+    "xml-js": "^1.6.11"
   }
 }
