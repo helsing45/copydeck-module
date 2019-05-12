@@ -1,5 +1,5 @@
 import ConversionItem from '../model/ConversionItem';
-import {distinct} from '../utils/ArrayUtils';
+import '../extension/ArrayExtension';
 
 const csv = require('csvtojson')
 const LocalCode = require('locale-code')
@@ -141,7 +141,7 @@ class CsvMapTransformation {
         });
 
         //return only unique key
-        return distinct(columns);
+        return columns.distinct();
     }
 
     _printRow(item, columns){

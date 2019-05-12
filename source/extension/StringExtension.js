@@ -1,3 +1,7 @@
+String.prototype.removeAll = function removeAll(toRemove){
+    return this.replaceAll(toRemove,'');
+}
+
 String.prototype.replaceAll = function replaceAll(oldCaract, newCaract) {
     return this.split(oldCaract).join(newCaract);
 };

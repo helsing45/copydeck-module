@@ -15,14 +15,14 @@ class AndroidMapTransformation {
             }
             //Then we group every items by is ID, this will match every item of every language.
             //And create a conversionItem it each group.
-            let conversionItem = [];
+            let conversionItems = [];
             let groupedXmlString = xmlsStrings.groupBy("id");
             let groupKeys = Object.keys(groupedXmlString);
             for (const groupKey of groupKeys) {
-                conversionItem.push(this.buildConversionItemOf(groupedXmlString[groupKey]));
+                conversionItems.push(this.buildConversionItemOf(groupedXmlString[groupKey]));
             }
             //We then end the promise by returning our result.
-            resolve(conversionItem);
+            resolve(conversionItems);
         });
     }
 
@@ -116,7 +116,7 @@ class AndroidMapTransformation {
         for (const key in conversionItems) {
             if (conversionItems.hasOwnProperty(key)) {
                 const relation = conversionItems[key];
-                //TODO improve relation algorithme
+                //TODO improve relation algorithm
                 if (key == "other") {
                     result.addRelation("plural", relation);
                 }
@@ -153,8 +153,6 @@ class AndroidMapTransformation {
 
         return unformatted.replaceAll("\\'", "'").toNoneXMLFormat(unformatted);
     }
-
-
 
     fromBaseForm(input) {
         let availableLang = this.findLanguages(input);
