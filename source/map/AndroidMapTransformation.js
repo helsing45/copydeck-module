@@ -205,6 +205,7 @@ class AndroidMapTransformation {
                 pluralsXml += `\n \t\t<item quantity="zero">${this.formatForXML(item.relation.zero.values[lang])}</item>`;
             }
             pluralsXml += `\n \t\t<item quantity="one">${this.formatForXML(item.values[lang])}</item>`;
+            //TODO only work for plural, handle other relation
             pluralsXml += `\n \t\t<item quantity="other">${this.formatForXML(item.relation.plural.values[lang])}</item>`;
             pluralsXml += '\n\t</plurals>\n';
             return pluralsXml;

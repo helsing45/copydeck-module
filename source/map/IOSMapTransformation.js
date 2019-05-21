@@ -145,7 +145,7 @@ class IOSMapTransformations {
 
             groupedKey.forEach(key => {
                 stringsFile += key.trim().length == 0 ? "\n" : `\n/* ${key} */ \n`;
-                stringsFile += this.printGroup(groupedItems[key], availableLang[0]);
+                stringsFile += this.printGroup(groupedItems[key], lang);
             });
             result[lang] = stringsFile;
         }
