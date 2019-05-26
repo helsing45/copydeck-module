@@ -2,13 +2,14 @@ import AndroidIO from "../IO/AndroidIO";
 import CsvIO from "../IO/CsvIO";
 import IosIO from "../IO/IosIO";
 import I18nextIO from "../IO/I18nextIO";
-import CsvMapTransformation from "../map/CsvMapTransformation";
-import AndroidMapTransformation from "../map/AndroidMapTransformation";
-import IOSMapTransformations from "../map/IOSMapTransformation";
-import {
-    resolve
-} from "path";
-import I18NextMapTransformation from "../map/I18NextMapTransformation";
+import UniversalToAndroidConvertor from "../convertors/UniversalToAndroidConvertor";
+import UniversalToIOSConvertor from "../convertors/UniversalToIOSConvertor";
+import UniversalToCSVConvertor from "../convertors/UniversalToCSVConvertor";
+import UniversalToI18NextConvertor from "../convertors/UniversalToI18NextConvertor";
+import AndroidToUniversalConvertor from "../convertors/AndroidToUniversalConvertor";
+import IOSToUniversalConvertor from "../convertors/IOSToUniversalConvertor";
+import CSVToUniversalConvertor from "../convertors/CSVToUniversalConvertor";
+import I18NextToUniversalConvertor from "../convertors/I18NextToUniversalConvertor";
 
 class Translator {
     constructor() {
@@ -23,19 +24,19 @@ class Translator {
         switch (translatorType) {
             case "Android":
                 this.inputFile = new AndroidIO();
-                this.toBaseTranslator = new AndroidMapTransformation();
+                this.toBaseTranslator = new AndroidToUniversalConvertor();
                 break;
             case "IOS":
                 this.inputFile = new IosIO();
-                this.toBaseTranslator = new IOSMapTransformations();
+                this.toBaseTranslator = new IOSToUniversalConvertor();
                 break;
             case "Csv":
                 this.inputFile = new CsvIO();
-                this.toBaseTranslator = new CsvMapTransformation();
+                this.toBaseTranslator = new CSVToUniversalConvertor();
                 break;
             case "i18Next":
                 this.inputFile = new I18nextIO();
-                this.toBaseTranslator = new I18NextMapTransformation();
+                this.toBaseTranslator = new I18NextToUniversalConvertor();
                 break;
             default:
                 throw new Error("translatorType " + translatorType + " is not a know type");
@@ -52,19 +53,19 @@ class Translator {
         switch (translatorType) {
             case "Android":
                 this.outputFile = new AndroidIO();
-                this.fromBaseTranslator = new AndroidMapTransformation();
+                this.fromBaseTranslator = new UniversalToAndroidConvertor();
                 break;
             case "IOS":
                 this.outputFile = new IosIO();
-                this.fromBaseTranslator = new IOSMapTransformations();
+                this.fromBaseTranslator = new UniversalToIOSConvertor();
                 break;
             case "Csv":
                 this.outputFile = new CsvIO();
-                this.fromBaseTranslator = new CsvMapTransformation();
+                this.fromBaseTranslator = new UniversalToCSVConvertor();
                 break;
             case "i18Next":
                 this.outputFile = new I18nextIO();
-                this.fromBaseTranslator = new I18NextMapTransformation();
+                this.fromBaseTranslator = new UniversalToI18NextConvertor();
                 break;
             default:
                 throw new Error("translatorType " + translatorType + " is not a know type");
@@ -78,8 +79,8 @@ class Translator {
     }
 
     translate() {
-        return this.toBaseTranslator.toBaseForm(this.inputFile).then((x) => {
-            let result = this.fromBaseTranslator.fromBaseForm(this.filter(x));
+        return this.toBaseTranslator.convert(this.inputFile).then((x) => {
+            let result = this.fromBaseTranslator.convert(this.filter(x));
             return new Promise((resolve) => {
                 resolve(result);
             });;
@@ -93,13 +94,6 @@ class Translator {
         })
     }
 }
-
-/*translate(outputPath) {
-    this.inputMapTransformater.toBaseForm(this.inputFile).then((x) => {
-        this.outputFile.file = this.outputMapTransformer.fromBaseForm(this.filter(x));
-        this.outputFile.write(outputPath);
-    });
-}*/
 
 
 export default Translator;

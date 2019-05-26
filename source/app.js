@@ -1,14 +1,22 @@
 import Translator from "./translator/Translator";
 
+// CSV to i18Next
+/*new Translator()
+    .from("Csv")
+    .read("./files/csv/Sheet1.csv")
+    .to("i18Next")
+    .translateToFile('./files/output/');*/
+
+//i18Next to CSV
 new Translator()
     .from("i18Next")
-    .read("./files/i18Next")
+    .read("./files/i18next")
     .to("Csv")
-    /*.translateToFile('./files/output/')*/
-    .translate()
+    .translateToFile('./files/output/')
+    /*.translate()
     .then((x) => {
         console.log(x);
-    });
+    });*/
 
 /*var input = new IosIO();
 input.read("./files/ios/variable");

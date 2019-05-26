@@ -2,9 +2,9 @@ import '../extension/ArrayExtension';
 import '../extension/StringExtension';
 import ConversionItem from '../model/ConversionItem';
 
-class AndroidMapTransformation {
+class AndroidToUniversalConvertor {
 
-    toBaseForm(input) {
+    convert(input) {
         return new Promise((resolve) => {
             let files = input.file;
             //First we map all the string in the individual files, then adding it to the same list. 
@@ -64,7 +64,6 @@ class AndroidMapTransformation {
         }
         return androidConversionItems;
     }
-
     readAsString(element, section) {
         let id = element['attributes']['name'];
         let value = element['elements'][0]['text'];
@@ -104,7 +103,7 @@ class AndroidMapTransformation {
                 let conversionItem = new ConversionItem();
                 conversionItem.addId("String_Id", group[0].id);
                 for (const lang of group) {
-                    conversionItem.addValue(lang.key, this.formatForBaseForm(lang.value));
+                    conversionItem.addValue(lang.key, this.formatValue(lang.value));
                 }
                 conversionItem.addMeta("Section_name", group[0].section);
                 conversionItems[key] = conversionItem;
@@ -126,7 +125,7 @@ class AndroidMapTransformation {
         return result;
     }
 
-    formatForBaseForm(unformatted) {
+    formatValue(unformatted) {
         let regex = /%([0-9]+\$)?(\.[0-9]+)?(d|f|s)/g;
         let matchs = unformatted.match(regex);
         if (matchs) {
@@ -150,104 +149,12 @@ class AndroidMapTransformation {
                 }
             });
         }
-
-        return unformatted.replaceAll("\\'", "'").toNoneXMLFormat(unformatted);
-    }
-
-    fromBaseForm(input) {
-        let availableLang = this.findLanguages(input);
-        let groupedItems = input.groupBy("_meta.Section_name");
-        let groupedKey = Object.keys(groupedItems).sort();
-        var result = {};
-
-        for (let langIndex = 0; langIndex < availableLang.length; langIndex++) {
-            const lang = availableLang[langIndex];
-            result[lang] = this.printForLang(groupedItems, groupedKey, lang)
+        unformatted = unformatted.replaceAll("\\'", "'");
+        if(!(unformatted.startsWith("<![CDATA[") && unformatted.endsWith("]]>"))){
+            unformatted = unformatted.toNoneXMLFormat(unformatted);
         }
-        return result;
+        return unformatted;
     }
 
-    findLanguages(items) {
-        let lang = [];
-        items.map((x) => {
-            lang = lang.concat(Object.keys(x.values))
-        })
-        return lang.distinct();
-    }
-
-    printForLang(items, keys, lang) {
-        let stringXML = '<?xml version="1.0" encoding="utf-8"?> \n  <!-- generation time : ' + new Date().toISOString() + '--> \n<resources>\n';
-
-        keys.forEach((key) => stringXML += this.printGroup(key, items[key], lang));
-        stringXML += '</resources>'
-        return stringXML;
-    }
-
-    printGroup(key, items, lang) {
-        let group = key.trim().length == 0 ? "\n" : `\n\t<!-- ${key} -->\n`;
-        items.forEach(element => {
-            group += this.printItem(element, lang);
-        });
-        return group;
-    }
-
-    printItem(item, lang) {
-        let id = this.getRightId(item);
-        if (!id) {
-            throw "String is missing a id";
-        }
-
-        if (!item.relation) {
-            return `\t<string name="${id}">${this.formatForXML(item.values[lang])}</string>\n`
-        } else {
-            let pluralsXml = `\t<plurals name="${id}">`;
-            if (item.relation['zero']) {
-                pluralsXml += `\n \t\t<item quantity="zero">${this.formatForXML(item.relation.zero.values[lang])}</item>`;
-            }
-            pluralsXml += `\n \t\t<item quantity="one">${this.formatForXML(item.values[lang])}</item>`;
-            //TODO only work for plural, handle other relation
-            pluralsXml += `\n \t\t<item quantity="other">${this.formatForXML(item.relation.plural.values[lang])}</item>`;
-            pluralsXml += '\n\t</plurals>\n';
-            return pluralsXml;
-        }
-
-    }
-
-    getRightId(item) {
-        let specificId = item.ids["android"];
-        let id = specificId ? specificId : item.ids["string"];
-        return id.toLowerCase();
-    }
-
-    formatForXML(unformatted) {
-        if (!unformatted) {
-            return;
-        }
-        let regex = /{{(number|text|float|float:[0-9]*)}}/g;
-        let matchs = unformatted.match(regex);
-        if (matchs != null) {
-            for (let occurence = 0; occurence < matchs.length; occurence++) {
-                var foundPattern = matchs[occurence];
-                switch (foundPattern) {
-                    case "{{text}}":
-                        unformatted = unformatted.replace(foundPattern, `%${occurence + 1}$s`)
-                        break;
-                    case "{{number}}":
-                        unformatted = unformatted.replace(foundPattern, `%${occurence + 1}$d`)
-                        break;
-                    case "{{float}}":
-                        unformatted = unformatted.replace(foundPattern, `%${occurence + 1}$f`)
-                        break;
-                    default:
-                        if (foundPattern.includes("{{float:")) {
-                            var decimal = foundPattern.replace("{{float:", "").replace("}}", "");
-                            unformatted = unformatted.replace(foundPattern, `%${occurence + 1}$.${decimal}f`)
-                        }
-
-                }
-            }
-        }
-        return unformatted.replaceAll("'", "\\'").toXMLFormat(unformatted);
-    }
 }
-export default AndroidMapTransformation;
+export default AndroidToUniversalConvertor;
