@@ -7,14 +7,13 @@ const ISO6391 = require('iso-639-1')
 
 class CSVToUniversalConvertor {
 
-    convert(input) {
+    async convert(input) {
         //For now CsvMapTransformation doesn't handle multiple file
         var key = Object.keys(input._files)[0];
         var csvBuilder = csv().fromString(input._files[key]);
-        return csvBuilder.then((json) => {
-            var conversionItems = json.map(x => this.jsonObjectToConversionObject(x));
-            return this.associateRelations(conversionItems);
-        });
+        const json = await csvBuilder;
+        var conversionItems = json.map(x => this.jsonObjectToConversionObject(x));
+        return this.associateRelations(conversionItems);
     }
 
     jsonObjectToConversionObject(json) {
