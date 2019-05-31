@@ -6,6 +6,22 @@ String.prototype.replaceAll = function replaceAll(oldCaract, newCaract) {
     return this.split(oldCaract).join(newCaract);
 };
 
+String.prototype.regexRemoveAll = function regexRemoveAll(regex){
+    return this.regexReplaceAll(regex,'');
+}
+
+String.prototype.regexReplaceAll = function regexReplaceAll(regex, newCaract){
+    let formattedString = this;
+    let matchs = formattedString.match(regex);   
+    if(!matchs) {
+        return formattedString;
+    }
+    for (const x of matchs) {
+        formattedString = formattedString.replace(x,newCaract);
+    }
+    return formattedString;
+}
+
 String.prototype.toXMLFormat = function toXMLFormat() {
     return this.replaceAll('&', '&amp;')
         .replaceAll('<', '&lt;')
@@ -19,7 +35,7 @@ String.prototype.toNoneXMLFormat = function toXMLFormat() {
 };
 
 String.prototype.camelize = function () {
-    var words = this.split(separator.toLowerCase());
+    var words = this.split("_");
 
     // Concatenate all capitalized words to get camelized string
     var result = "";

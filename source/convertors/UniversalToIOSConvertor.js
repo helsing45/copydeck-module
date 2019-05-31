@@ -8,10 +8,10 @@ class UniversalToIOSConvertor {
         let groupedKey = Object.keys(groupedItems).sort();
         var result = {};
         for (const lang of availableLang) {
-            let stringsFile = `/* \n  Localizable.strings \n Generation time : ' ${new Date().toISOString()} \n  */\n`;
+            let stringsFile = `/* \n Localizable.strings \n Generation time : ' ${new Date().toISOString()} \n  */\n`;
 
             groupedKey.forEach(key => {
-                stringsFile += key.trim().length == 0 ? "\n" : `\n/* ${key} */ \n`;
+                stringsFile += key || key.trim().length == 0 ? "\n" : `\n/* ${key} */ \n`;
                 stringsFile += this.printGroup(groupedItems[key], lang);
             });
             result[lang] = stringsFile;

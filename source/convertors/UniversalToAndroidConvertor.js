@@ -33,7 +33,7 @@ class UniversalToAndroidConvertor {
     }
 
     printGroup(key, items, lang) {
-        let group = key.trim().length == 0 ? "\n" : `\n\t<!-- ${key} -->\n`;
+        let group = key || key.trim().length == 0 ? "\n" : `\n\t<!-- ${key} -->\n`;
         items.forEach(element => {
             group += this.printItem(element, lang);
         });
