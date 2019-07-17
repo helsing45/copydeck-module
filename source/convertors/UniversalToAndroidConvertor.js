@@ -5,7 +5,7 @@ class UniversalToAndroidConvertor {
 
     convert(input) {
         let availableLang = this.findLanguages(input);
-        let groupedItems = input.groupBy("_meta.Section_name");
+        let groupedItems = input.groupBy("_meta.Section");
         let groupedKey = Object.keys(groupedItems).sort();
         var result = {};
 
@@ -33,7 +33,7 @@ class UniversalToAndroidConvertor {
     }
 
     printGroup(key, items, lang) {
-        let group = key || key.trim().length == 0 ? "\n" : `\n\t<!-- ${key} -->\n`;
+        let group = !key || key.trim().length == 0 ? "\n" : `\n\t<!-- ${key} -->\n`;
         items.forEach(element => {
             group += this.printItem(element, lang);
         });

@@ -4,6 +4,7 @@ import UniversalToAndroidConvertor from "./convertors/UniversalToAndroidConverto
 import UniversalToIOSConvertor from "./convertors/UniversalToIOSConvertor";
 import UniversalToCSVConvertor from "./convertors/UniversalToCSVConvertor";
 import UniversalToI18Next from "./convertors/UniversalToI18NextConvertor";
+import ConversionItem from "./model/ConversionItem";
 var fs = require("fs");
 
 // CSV to i18Next
@@ -12,18 +13,19 @@ var fs = require("fs");
     .read("./files/csv/Sheet1.csv")
     .to("i18Next")
     .translateToFile('./files/output/');*/
+//var path = "./test/files/test_01"
+var path = "./test/files/test_section"
+console.log("Android is: " + testFiles(path,"android"));
+console.log("IOS is: " + testFiles(path,"ios"));
+console.log("Csv is: " + testFiles(path,"csv"));
+console.log("i18Next is: " + testFiles(path,"i18next"));
 
-//console.log("Android is: " + testFiles("./test/files/test_02","android"));
-//console.log("IOS is: " + testFiles("./test/files/test_02","ios"));
-//console.log("Csv is: " + testFiles("./test/files/test_02","csv"));
-console.log("i18Next is: " + testFiles("./test/files/test_02","i18next"));
-
-//prepareTestFiles('./files/csv/Sheet2.csv');
+//prepareTestFiles('./files/csv/test-sections.csv');
 
 function prepareTestFiles(readPath){
     //prepareTestFile(readPath,"Android");
     //prepareTestFile(readPath,"IOS");
-    prepareTestFile(readPath,"Csv");
+    //prepareTestFile(readPath,"Csv");
     //prepareTestFile(readPath,"i18Next");
 }
 
@@ -42,7 +44,7 @@ function prepareTestFile(readPath,platform){
 }
 
 function testFiles(path, platform) {
-    var universal = JSON.parse(fs.readFileSync(path + "/universal_items.json"));
+    var universal = ConversionItem.parse(fs.readFileSync(path + "/universal_items.json"));
     var expectedResult = JSON.parse(fs.readFileSync(path + "/" + platform + "/result.json"));
     var convertor;
     var regex;

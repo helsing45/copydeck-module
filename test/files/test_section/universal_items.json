@@ -1,0 +1,222 @@
+[
+  {
+    "_ids": {
+      "string": "string_id_01"
+    },
+    "_values": {
+      "en": "password (S1)"
+    },
+    "_meta": {
+      "Section": "Section #1"
+    }
+  },
+  {
+    "_ids": {
+      "string": "string_id_02"
+    },
+    "_values": {
+      "en": "sequence (S1)"
+    },
+    "_meta": {
+      "Section": "Section #1"
+    }
+  },
+  {
+    "_ids": {
+      "string": "string_id_03"
+    },
+    "_values": {
+      "en": "giant (S1)"
+    },
+    "_meta": {
+      "Section": "Section #1"
+    }
+  },
+  {
+    "_ids": {
+      "string": "string_id_04"
+    },
+    "_values": {
+      "en": "assignment (S1)"
+    },
+    "_meta": {
+      "Section": "Section #1"
+    }
+  },
+  {
+    "_ids": {
+      "string": "string_id_05"
+    },
+    "_values": {
+      "en": "stride (S1)"
+    },
+    "_meta": {
+      "Section": "Section #1"
+    }
+  },
+  {
+    "_ids": {
+      "string": "string_id_06"
+    },
+    "_values": {
+      "en": "pursuit (S2)"
+    },
+    "_meta": {
+      "Section": "Section #2"
+    }
+  },
+  {
+    "_ids": {
+      "string": "string_id_07"
+    },
+    "_values": {
+      "en": "beat (S3)"
+    },
+    "_meta": {
+      "Section": "Section #3"
+    }
+  },
+  {
+    "_ids": {
+      "string": "string_id_08"
+    },
+    "_values": {
+      "en": "chart (S4)"
+    },
+    "_meta": {
+      "Section": "Section #4"
+    }
+  },
+  {
+    "_ids": {
+      "string": "string_id_09"
+    },
+    "_values": {
+      "en": "rabbit (S1)"
+    },
+    "_meta": {
+      "Section": "Section #1"
+    }
+  },
+  {
+    "_ids": {
+      "string": "string_id_10"
+    },
+    "_values": {
+      "en": "exact (S1)"
+    },
+    "_meta": {
+      "Section": "Section #1"
+    }
+  },
+  {
+    "_ids": {
+      "string": "string_id_11"
+    },
+    "_values": {
+      "en": "disappear ()"
+    },
+    "_meta": {
+      "Section": ""
+    }
+  },
+  {
+    "_ids": {
+      "string": "string_id_16"
+    },
+    "_values": {
+      "en": "collapse (s2)"
+    },
+    "_meta": {
+      "Section": "section #2"
+    }
+  },
+  {
+    "_ids": {
+      "string": "string_id_12"
+    },
+    "_values": {
+      "en": "white ()"
+    },
+    "_meta": {
+      "Section": ""
+    }
+  },
+  {
+    "_ids": {
+      "string": "string_id_17"
+    },
+    "_values": {
+      "en": "terrify (s3)"
+    },
+    "_meta": {
+      "Section": "section #3"
+    }
+  },
+  {
+    "_ids": {
+      "string": "string_id_13"
+    },
+    "_values": {
+      "en": "experienced ()"
+    },
+    "_meta": {
+      "Section": ""
+    }
+  },
+  {
+    "_ids": {
+      "string": "string_id_18"
+    },
+    "_values": {
+      "en": "countryside (s4)"
+    },
+    "_meta": {
+      "Section": "section #4"
+    }
+  },
+  {
+    "_ids": {
+      "string": "string_id_14"
+    },
+    "_values": {
+      "en": "cat ()"
+    },
+    "_meta": {
+      "Section": ""
+    }
+  },
+  {
+    "_ids": {
+      "string": "string_id_19"
+    },
+    "_values": {
+      "en": "fear (s5)"
+    },
+    "_meta": {
+      "Section": "section #5"
+    }
+  },
+  {
+    "_ids": {
+      "string": "string_id_15"
+    },
+    "_values": {
+      "en": "diagram ()"
+    },
+    "_meta": {
+      "Section": ""
+    }
+  },
+  {
+    "_ids": {
+      "string": "string_id_20"
+    },
+    "_values": {
+      "en": "smell (s6)"
+    },
+    "_meta": {
+      "Section": "section #6"
+    }
+  }
+]

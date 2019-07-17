@@ -28,7 +28,7 @@ Array.prototype.groupBy = function groupBy(groupKey) {
 function getKeyValue(key, item) {
     let splittedKey = key.split('.');
     if (splittedKey.length == 1) {
-        return item[splittedKey[0]];
+        return item[splittedKey[0]] ? item[splittedKey[0]] : "";
     }
     let leftKey = splittedKey[0];
     let rightKey = key.replace(leftKey + '.', "");

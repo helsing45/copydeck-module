@@ -1,25 +1,25 @@
 [
     {
-       "ids":{
+       "_ids":{
           "string":"String_test_01"
        },
-       "values":{
+       "_values":{
           "fr":"Voici la string 1",
           "en":"Here the first string"
        },
-       "meta":{
+       "_meta":{
  
        }
     },
     {
-       "ids":{
+       "_ids":{
           "string":"String_test_02"
        },
-       "values":{
+       "_values":{
           "fr":"Voici la string 2",
           "en":"Here the second string"
        },
-       "meta":{
+       "_meta":{
  
        }
     }

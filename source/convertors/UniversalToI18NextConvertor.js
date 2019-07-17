@@ -4,12 +4,13 @@ class UniversalToI18Next {
 
     convert(input) {
         let availableLang = this.findLanguages(input);
-        let groupedItems = input.groupBy("_meta.Section_name");
+        let groupedItems = input.groupBy("_meta.Section");        
+        let orderedKeys = Object.keys(groupedItems).sort();
         var result = {};
 
         for (let langIndex = 0; langIndex < availableLang.length; langIndex++) {
             const lang = availableLang[langIndex];
-            result[lang] = this.printForLang(groupedItems, lang)
+            result[lang] = this.printForLang(groupedItems, orderedKeys, lang)
         }
         return result;
     }
@@ -22,13 +23,12 @@ class UniversalToI18Next {
         return lang.distinct();
     }
 
-    printForLang(items, lang) {
+    printForLang(items, orderedKeys, lang) {
         let result = {"translation":{}};
-        for (const key in items) {
-            if (items.hasOwnProperty(key)) {
-                const group = items[key];
-                result.translation[key] = this.printGroup(group, lang);
-            }
+
+        for (const key of orderedKeys) {
+                result.translation[key] = this.printGroup(items[key], lang);
+            
         }
         return JSON.stringify(result);
     }
