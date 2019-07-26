@@ -5,6 +5,26 @@ const DEFAULT_LANGUAGE_KEY = "default";
 const DEFAULT_FOLDER_NAME = "values";
 
 class AndroidIO extends IO {
+    constructor(){
+        super();
+        this._defaultLang;
+    }
+
+    get defaultLang() {
+        return this._defaultLang;
+    }
+
+    set defaultLang(defaultLang) {
+        this._defaultLang = defaultLang;
+    }
+
+    set file(files) {
+            if (this._defaultLang && files.hasOwnProperty(this._defaultLang)) {
+                Object.defineProperty(files, DEFAULT_LANGUAGE_KEY, Object.getOwnPropertyDescriptor(files, this._defaultLang));
+                delete files[this._defaultLang];
+            }
+            this._files = files;
+    }
 
     read(filePath) {
         var paths = this._getFilePaths(filePath);

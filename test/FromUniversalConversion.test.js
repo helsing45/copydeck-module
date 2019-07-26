@@ -6,19 +6,19 @@ import CsvIO from "../source/IO/CsvIO";
 import I18nextIO from "../source/IO/I18nextIO";
 
 test("Universal to Android #1", () => {
-    testPlatformConversion("Android", "./test/files/test_01", /<!-- generation time : [0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z-->/g);
+    testPlatformConversion("Android", "./test/files/simple_test", /<!-- generation time : [0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z-->/g);
 });
 
 test("Universal to IOS #1", () => {
-    testPlatformConversion("IOS", "./test/files/test_01", /.*Generation time :.*[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z.*\n/g);
+    testPlatformConversion("IOS", "./test/files/simple_test", /.*Generation time :.*[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z.*\n/g);
 });
 
 test("Universal to i18Next #1", () => {
-    testPlatformConversion("i18Next", "./test/files/test_01");
+    testPlatformConversion("i18Next", "./test/files/simple_test");
 });
 
 test("Universal to Csv #1", () => {
-    testPlatformConversion("Csv", "./test/files/test_01");
+    testPlatformConversion("Csv", "./test/files/simple_test");
 });
 
 function testPlatformConversion(platform, path, regex) {

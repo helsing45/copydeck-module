@@ -1,7 +1,7 @@
 import IO from "./IO";
 const fs = require('fs');
 
-class CsvIO extends IO {
+class UniversalFileIO extends IO {
 
     read(filePath) {
         var paths = this._getFilePaths(filePath);
@@ -15,17 +15,12 @@ class CsvIO extends IO {
         }
     }
 
-    write(outputPath) {
-                var fileOutputPath = outputPath + "/UniversalItems.json";
-                this._writeFile(fileOutputPath, JSON.stringify(this._files), (err) => {
-                    if (err) {
-                        console.log(err);
-                    }
-                });
-            
+    write(outputPath,cb) {
+                var fileOutputPath = outputPath + "/universal_items.json";
+                this._writeFile(fileOutputPath, JSON.stringify(this._files),cb);            
         
     }
 
 
 }
-export default CsvIO;
+export default UniversalFileIO;

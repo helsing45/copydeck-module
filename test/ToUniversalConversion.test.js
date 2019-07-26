@@ -5,22 +5,22 @@ import '../source/extension/StringExtension';
 var fs = require("fs");
 
 test("Android to Universal #1", () => {
-    testUniversalConversion("Android", "./test/files/test_01")
+    testUniversalConversion("Android", "./test/files/simple_test")
 });
 test("IOS to Universal #1", () => {
-    testUniversalConversion("IOS", "./test/files/test_01")
+    testUniversalConversion("IOS", "./test/files/simple_test")
 });
 test("I18Next to Universal #1", () => {
-    testUniversalConversion("i18Next", "./test/files/test_01")
+    testUniversalConversion("i18Next", "./test/files/simple_test")
 });
 test("CSV to Universal #1", () => {
-    testUniversalConversion("Csv", "./test/files/test_01")
+    testUniversalConversion("Csv", "./test/files/simple_test")
 });
 
 function testUniversalConversion(from, path, idFormatter) {
     return new Translator()
         .from(from)
-        .readFile(path + "/" + from.toLowerCase() + "/toUniversal")
+        .readFile(path + "/" + from.toLowerCase())
         .to("universal")
         .translate()
         .then(data => {

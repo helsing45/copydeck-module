@@ -71,10 +71,12 @@ class Translator {
         switch (translatorType) {
             case "Android":
                 this.outputFile = new AndroidIO();
+                this.outputFile.defaultLang = this.defaultLang;
                 this.fromBaseTranslator = new UniversalToAndroidConvertor();
                 break;
             case "IOS":
                 this.outputFile = new IosIO();
+                this.outputFile.defaultLang = this.defaultLang;
                 this.fromBaseTranslator = new UniversalToIOSConvertor();
                 break;
             case "Csv":
@@ -101,22 +103,17 @@ class Translator {
     }
 
     translate() {
-        let b = true;
         return this.toBaseTranslator.convert(this.inputFile).then((x) => {
             let result = this.fromBaseTranslator.convert(this.filter(x));
-            if (this.defaultLang && result.hasOwnProperty(this.defaultLang)) {
-                Object.defineProperty(result, "default", Object.getOwnPropertyDescriptor(result, this.defaultLang));
-                delete result[this.defaultLang];
-            }
+            this.outputFile.file = result;
             return new Promise((resolve) => {
-                resolve(result);
+                resolve(this.outputFile.file);
             });;
         });
     }
 
     translateToFile(outputPath) {
         this.translate().then((result) => {
-            this.outputFile.file = result;
             this.outputFile.write(outputPath);
         })
     }
