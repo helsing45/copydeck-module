@@ -2,14 +2,17 @@ import AndroidIO from "../IO/AndroidIO";
 import CsvIO from "../IO/CsvIO";
 import IosIO from "../IO/IosIO";
 import I18nextIO from "../IO/I18nextIO";
+import UniversalFileIO from "../IO/UniversalFileIO";
 import UniversalToAndroidConvertor from "../convertors/UniversalToAndroidConvertor";
 import UniversalToIOSConvertor from "../convertors/UniversalToIOSConvertor";
 import UniversalToCSVConvertor from "../convertors/UniversalToCSVConvertor";
 import UniversalToI18NextConvertor from "../convertors/UniversalToI18NextConvertor";
+import FromUniversalConvertor from "../convertors/FromUniversalConvertor";
 import AndroidToUniversalConvertor from "../convertors/AndroidToUniversalConvertor";
 import IOSToUniversalConvertor from "../convertors/IOSToUniversalConvertor";
 import CSVToUniversalConvertor from "../convertors/CSVToUniversalConvertor";
 import I18NextToUniversalConvertor from "../convertors/I18NextToUniversalConvertor";
+import ToUniversalConvertor from "../convertors/ToUniversalConvertor";
 
 class Translator {
     constructor() {
@@ -18,6 +21,12 @@ class Translator {
         this.fromBaseTranslator;
         this.outputFile;
         this.filter;
+        this.defaultLang;
+    }
+
+    defineDefaultLang(lang) {
+        this.defaultLang = lang;
+        return this;
     }
 
     from(translatorType) {
@@ -38,14 +47,23 @@ class Translator {
                 this.inputFile = new I18nextIO();
                 this.toBaseTranslator = new I18NextToUniversalConvertor();
                 break;
+            case "universal":
+                this.inputFile = new UniversalFileIO();
+                this.toBaseTranslator = new ToUniversalConvertor();
+                break;
             default:
                 throw new Error("translatorType " + translatorType + " is not a know type");
         }
         return this;
     }
 
-    read(inputPath) {
+    readFile(inputPath) {
         this.inputFile.read(inputPath);
+        return this;
+    }
+
+    readAs(inputFile) {
+        this.inputFile.file = inputFile;
         return this;
     }
 
@@ -67,6 +85,10 @@ class Translator {
                 this.outputFile = new I18nextIO();
                 this.fromBaseTranslator = new UniversalToI18NextConvertor();
                 break;
+            case "universal":
+                this.outputFile = new UniversalFileIO();
+                this.fromBaseTranslator = new FromUniversalConvertor();
+                break;
             default:
                 throw new Error("translatorType " + translatorType + " is not a know type");
         }
@@ -79,8 +101,13 @@ class Translator {
     }
 
     translate() {
+        let b = true;
         return this.toBaseTranslator.convert(this.inputFile).then((x) => {
             let result = this.fromBaseTranslator.convert(this.filter(x));
+            if (this.defaultLang && result.hasOwnProperty(this.defaultLang)) {
+                Object.defineProperty(result, "default", Object.getOwnPropertyDescriptor(result, this.defaultLang));
+                delete result[this.defaultLang];
+            }
             return new Promise((resolve) => {
                 resolve(result);
             });;
