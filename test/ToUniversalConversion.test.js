@@ -1,21 +1,27 @@
 import Translator from "../source/translator/Translator";
 import ConversionItem from '../source/model/ConversionItem';
 import '../source/extension/StringExtension';
-
 var fs = require("fs");
 
-test("Android to Universal #1", () => {
-    testUniversalConversion("Android", "./test/files/simple_test")
-});
-test("IOS to Universal #1", () => {
-    testUniversalConversion("IOS", "./test/files/simple_test")
-});
-test("I18Next to Universal #1", () => {
-    testUniversalConversion("i18Next", "./test/files/simple_test")
-});
-test("CSV to Universal #1", () => {
-    testUniversalConversion("Csv", "./test/files/simple_test")
-});
+/* ANDROID */
+test("Android to Universal #1", () => testUniversalConversion("Android", "./test/files/simple_test", (id)=>{return id.toLowerCase()}));
+
+test("Android to Universal Section", () => testUniversalConversion("Android", "./test/files/test_section", (id)=>{return id.toLowerCase()}));
+
+/* IOS */
+test("IOS to Universal #1", () => testUniversalConversion("IOS", "./test/files/simple_test", (id)=>{return id.toUpperCase()}));
+
+test("IOS to Universal Section", () => testUniversalConversion("IOS", "./test/files/test_section", (id)=>{return id.toUpperCase()}));
+
+/* I18Next */
+test("I18Next to Universal #1", () => testUniversalConversion("i18Next", "./test/files/simple_test", (id)=>{return id.camelize()}));
+
+test("I18Next to Universal Section", () => testUniversalConversion("i18Next", "./test/files/test_section", (id)=>{return id.camelize()}));
+
+/* CSV */
+test("CSV to Universal #1", () => testUniversalConversion("Csv", "./test/files/simple_test"));
+
+test("CSV to Universal Section", () => testUniversalConversion("Csv", "./test/files/test_section"));
 
 function testUniversalConversion(from, path, idFormatter) {
     return new Translator()
@@ -24,7 +30,7 @@ function testUniversalConversion(from, path, idFormatter) {
         .to("universal")
         .translate()
         .then(data => {
-            expect(testUniversals(path, data, idFormatter)).toBe(true);
+            expect(testUniversals(path, data, idFormatter)).toBe(false);
         });
 }
 

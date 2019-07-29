@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?> 
+  <!-- generation time : 2019-07-29T08:35:09.074Z--> 
+<resources>
+
+	<string name="string_id_11">disappear ()</string>
+	<string name="string_id_12">white ()</string>
+	<string name="string_id_13">experienced ()</string>
+	<string name="string_id_14">cat ()</string>
+	<string name="string_id_15">diagram ()</string>
+
+	<!-- Section #1 -->
+	<string name="string_id_01">password (S1)</string>
+	<string name="string_id_02">sequence (S1)</string>
+	<string name="string_id_03">giant (S1)</string>
+	<string name="string_id_04">assignment (S1)</string>
+	<string name="string_id_05">stride (S1)</string>
+	<string name="string_id_09">rabbit (S1)</string>
+	<string name="string_id_10">exact (S1)</string>
+
+	<!-- Section #2 -->
+	<string name="string_id_06">pursuit (S2)</string>
+
+	<!-- Section #3 -->
+	<string name="string_id_07">beat (S3)</string>
+
+	<!-- Section #4 -->
+	<string name="string_id_08">chart (S4)</string>
+
+	<!-- section #2 -->
+	<string name="string_id_16">collapse (s2)</string>
+
+	<!-- section #3 -->
+	<string name="string_id_17">terrify (s3)</string>
+
+	<!-- section #4 -->
+	<string name="string_id_18">countryside (s4)</string>
+
+	<!-- section #5 -->
+	<string name="string_id_19">fear (s5)</string>
+
+	<!-- section #6 -->
+	<string name="string_id_20">smell (s6)</string>
+</resources>

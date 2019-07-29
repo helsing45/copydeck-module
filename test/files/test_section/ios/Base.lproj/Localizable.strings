@@ -1,0 +1,43 @@
+/* 
+ Localizable.strings 
+ Generation time : ' 2019-07-29T08:35:09.074Z 
+  */
+
+"STRING_ID_11" = "disappear ()";
+"STRING_ID_12" = "white ()";
+"STRING_ID_13" = "experienced ()";
+"STRING_ID_14" = "cat ()";
+"STRING_ID_15" = "diagram ()";
+
+/* Section #1 */ 
+"STRING_ID_01" = "password (S1)";
+"STRING_ID_02" = "sequence (S1)";
+"STRING_ID_03" = "giant (S1)";
+"STRING_ID_04" = "assignment (S1)";
+"STRING_ID_05" = "stride (S1)";
+"STRING_ID_09" = "rabbit (S1)";
+"STRING_ID_10" = "exact (S1)";
+
+/* Section #2 */ 
+"STRING_ID_06" = "pursuit (S2)";
+
+/* Section #3 */ 
+"STRING_ID_07" = "beat (S3)";
+
+/* Section #4 */ 
+"STRING_ID_08" = "chart (S4)";
+
+/* section #2 */ 
+"STRING_ID_16" = "collapse (s2)";
+
+/* section #3 */ 
+"STRING_ID_17" = "terrify (s3)";
+
+/* section #4 */ 
+"STRING_ID_18" = "countryside (s4)";
+
+/* section #5 */ 
+"STRING_ID_19" = "fear (s5)";
+
+/* section #6 */ 
+"STRING_ID_20" = "smell (s6)";

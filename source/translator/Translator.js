@@ -106,7 +106,7 @@ class Translator {
         return this.toBaseTranslator.convert(this.inputFile).then((x) => {
             let result = this.fromBaseTranslator.convert(this.filter(x));
             this.outputFile.file = result;
-            return new Promise((resolve) => {
+            return new Promise((resolve,reject) => {
                 resolve(this.outputFile.file);
             });;
         });

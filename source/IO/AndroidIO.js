@@ -16,6 +16,10 @@ class AndroidIO extends IO {
 
     set defaultLang(defaultLang) {
         this._defaultLang = defaultLang;
+    }    
+
+    get file() {
+        return this._files;
     }
 
     set file(files) {
