@@ -1,5 +1,6 @@
 import '../extension/ArrayExtension';
 import '../extension/StringExtension';
+import ConversionItem from '../model/ConversionItem';
 
 class UniversalToAndroidConvertor {
 
@@ -55,7 +56,7 @@ class UniversalToAndroidConvertor {
             }
             pluralsXml += `\n \t\t<item quantity="one">${this.formatValue(item.values[lang])}</item>`;
             //TODO only work for plural, handle other relation
-            pluralsXml += `\n \t\t<item quantity="other">${this.formatValue(item.relation.plural.values[lang])}</item>`;
+            pluralsXml += `\n \t\t<item quantity="other">${this.formatValue(item.getRelation("plural").values[lang])}</item>`;
             pluralsXml += '\n\t</plurals>\n';
             return pluralsXml;
         }

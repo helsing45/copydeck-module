@@ -69,6 +69,13 @@ class ConversionItem {
         this._relations = relation;
     }
 
+    getRelation(key){
+        let obj = this._relations[key];
+        let result = new ConversionItem();
+        Object.assign(result,obj);
+        return result;
+    }
+
     addRelation(type, relatedItem) {
         if (this._relations === undefined) {
             this._relations = {};

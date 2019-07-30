@@ -59,10 +59,12 @@ class IOSToUniversalConvertor {
                     iosConversionItem['section'] = currentSection;
                     iosConversionItem['value'] = value;
                     if (key.toLowerCase().includes('_singular')) {
-                        iosConversionItem['id'] = key.removeAll('_singular');
+                        let indexStart =  key.toLowerCase().indexOf('_singular');
+                        iosConversionItem['id'] = key.substring(0,indexStart);
                         iosConversionItem['quantity'] = 'one';
                     } else if (key.toLowerCase().includes('_plural')) {
-                        iosConversionItem['id'] = key.removeAll('_plural');
+                        let indexStart =  key.toLowerCase().indexOf('_plural');
+                        iosConversionItem['id'] = key.substring(0,indexStart);
                         iosConversionItem['quantity'] = 'plural';
                     } else {
                         iosConversionItem['id'] = key;

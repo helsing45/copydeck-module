@@ -3,25 +3,41 @@ import ConversionItem from '../source/model/ConversionItem';
 import '../source/extension/StringExtension';
 var fs = require("fs");
 
-/* ANDROID */
-test("Android to Universal #1", () => testUniversalConversion("Android", "./test/files/simple_test", (id)=>{return id.toLowerCase()}));
+const androidIdFormatter = (id)=>{return id.toLowerCase()};
+const iosIdFormatter = (id)=>{return id.toUpperCase()};
+const i18NextIdFormatter = (id)=>{return id.camelize()};
 
-test("Android to Universal Section", () => testUniversalConversion("Android", "./test/files/test_section", (id)=>{return id.toLowerCase()}));
+const SIMPLE_TEST_PATH = "./test/files/simple_test";
+const SECTION_TEST_PATH = "./test/files/test_section";
+const RELATION_TEST_PATH = "./test/files/test_relation";
+
+/* ANDROID */
+test("Android to Universal #1", () => testUniversalConversion("Android", SIMPLE_TEST_PATH, androidIdFormatter));
+
+test("Android to Universal Section", () => testUniversalConversion("Android", SECTION_TEST_PATH, androidIdFormatter));
+
+test("Android to Universal Relation", () => testUniversalConversion("Android", RELATION_TEST_PATH, androidIdFormatter));
 
 /* IOS */
-test("IOS to Universal #1", () => testUniversalConversion("IOS", "./test/files/simple_test", (id)=>{return id.toUpperCase()}));
+test("IOS to Universal #1", () => testUniversalConversion("IOS", SIMPLE_TEST_PATH ,iosIdFormatter ));
 
-test("IOS to Universal Section", () => testUniversalConversion("IOS", "./test/files/test_section", (id)=>{return id.toUpperCase()}));
+test("IOS to Universal Section", () => testUniversalConversion("IOS", SECTION_TEST_PATH, iosIdFormatter));
+
+test("IOS to Universal Relation", () => testUniversalConversion("IOS", RELATION_TEST_PATH, iosIdFormatter));
 
 /* I18Next */
-test("I18Next to Universal #1", () => testUniversalConversion("i18Next", "./test/files/simple_test", (id)=>{return id.camelize()}));
+test("I18Next to Universal #1", () => testUniversalConversion("i18Next", SIMPLE_TEST_PATH, i18NextIdFormatter));
 
-test("I18Next to Universal Section", () => testUniversalConversion("i18Next", "./test/files/test_section", (id)=>{return id.camelize()}));
+test("I18Next to Universal Section", () => testUniversalConversion("i18Next", SECTION_TEST_PATH, i18NextIdFormatter));
+
+test("I18Next to Universal Relation", () => testUniversalConversion("i18Next", RELATION_TEST_PATH, i18NextIdFormatter));
 
 /* CSV */
-test("CSV to Universal #1", () => testUniversalConversion("Csv", "./test/files/simple_test"));
+test("CSV to Universal #1", () => testUniversalConversion("Csv", SIMPLE_TEST_PATH));
 
-test("CSV to Universal Section", () => testUniversalConversion("Csv", "./test/files/test_section"));
+test("CSV to Universal Section", () => testUniversalConversion("Csv", SECTION_TEST_PATH));
+
+test("CSV to Universal Relation", () => testUniversalConversion("Csv", RELATION_TEST_PATH));
 
 function testUniversalConversion(from, path, idFormatter) {
     return new Translator()
@@ -30,7 +46,7 @@ function testUniversalConversion(from, path, idFormatter) {
         .to("universal")
         .translate()
         .then(data => {
-            expect(testUniversals(path, data, idFormatter)).toBe(false);
+            expect(testUniversals(path, data, idFormatter)).toBe(true);
         });
 }
 

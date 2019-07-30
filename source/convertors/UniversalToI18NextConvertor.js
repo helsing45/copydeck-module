@@ -42,7 +42,7 @@ class UniversalToI18Next {
             } else {
                 resultGroup[id] = this.formatValue(item.values[lang]);
                 //TODO only work for plural, handle other relation
-                resultGroup[id + "_plural"] = this.formatValue(item.relation.plural.values[lang]);
+                resultGroup[id + "_plural"] = this.formatValue(item.getRelation("plural").values[lang]);
 
             }
         }

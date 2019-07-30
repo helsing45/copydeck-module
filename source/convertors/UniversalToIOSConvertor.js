@@ -47,7 +47,7 @@ class UniversalToIOSConvertor {
             let relationBloc = `"${this.getItemId(item, "_singular")}" = "${this.formatValue(item.values[lang])}";\n`;
             let relationKeys = Object.keys(item.relation);
             relationKeys.forEach(key => {
-                relationBloc += `"${this.getItemId(item, "_" + key)}" = "${this.formatValue(item.relation[key].values[lang])}";\n`;
+                relationBloc += `"${this.getItemId(item, "_" + key)}" = "${this.formatValue(item.getRelation(key).values[lang])}";\n`;
             });
             return relationBloc;
         }

@@ -5,25 +5,40 @@ import IosIO from "../source/IO/IosIO";
 import CsvIO from "../source/IO/CsvIO";
 import I18nextIO from "../source/IO/I18nextIO";
 
-/* ANDROID */
-test("Universal to Android #1", () => testPlatformConversion("Android", "./test/files/simple_test", /<!-- generation time : [0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z-->/g));
+const androidRegex = /<!-- generation time : [0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z-->/g;
+const iosRegex = /.*Generation time :.*[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z.*\n/g;
 
-test("Universal to Android Test Section", () => testPlatformConversion("Android", "./test/files/test_section", /<!-- generation time : [0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z-->/g));
+const SIMPLE_TEST_PATH = "./test/files/simple_test";
+const SECTION_TEST_PATH = "./test/files/test_section";
+const RELATION_TEST_PATH = "./test/files/test_relation";
+
+/* ANDROID */
+test("Universal to Android #1", () => testPlatformConversion("Android", SIMPLE_TEST_PATH, androidRegex));
+
+test("Universal to Android Test Section", () => testPlatformConversion("Android", SECTION_TEST_PATH, androidRegex));
+
+test("Universal to Android Test Relation", () => testPlatformConversion("Android", RELATION_TEST_PATH, androidRegex));
 
 /* IOS */
-test("Universal to IOS #1", () => testPlatformConversion("IOS", "./test/files/simple_test", /.*Generation time :.*[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z.*\n/g));
+test("Universal to IOS #1", () => testPlatformConversion("IOS", SIMPLE_TEST_PATH, iosRegex));
 
-test("Universal to IOS Test Section", () => testPlatformConversion("IOS", "./test/files/test_section", /.*Generation time :.*[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z.*\n/g));
+test("Universal to IOS Test Section", () => testPlatformConversion("IOS", SECTION_TEST_PATH, iosRegex));
+
+test("Universal to IOS Test Relation", () => testPlatformConversion("IOS", RELATION_TEST_PATH, iosRegex));
 
 /* I18Next */
-test("Universal to i18Next #1", () => testPlatformConversion("i18Next", "./test/files/simple_test"));
+test("Universal to i18Next #1", () => testPlatformConversion("i18Next", SIMPLE_TEST_PATH));
 
-test("Universal to i18Next Test Section", () => testPlatformConversion("i18Next", "./test/files/test_section"));
+test("Universal to i18Next Test Section", () => testPlatformConversion("i18Next",SECTION_TEST_PATH));
+
+test("Universal to i18Next Test Relation", () => testPlatformConversion("i18Next",RELATION_TEST_PATH));
 
 /* CSV */
-test("Universal to Csv #1", () => testPlatformConversion("Csv", "./test/files/simple_test"));
+test("Universal to Csv #1", () => testPlatformConversion("Csv", SIMPLE_TEST_PATH));
 
-test("Universal to Csv Test Section", () => testPlatformConversion("Csv", "./test/files/test_section"));
+test("Universal to Csv Test Section", () => testPlatformConversion("Csv", SECTION_TEST_PATH));
+
+test("Universal to Csv Test Relation", () => testPlatformConversion("Csv", RELATION_TEST_PATH));
 
 function testPlatformConversion(platform, path, regex) {
     return convert(platform, path)

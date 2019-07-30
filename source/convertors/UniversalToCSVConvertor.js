@@ -4,7 +4,8 @@ class UniversalToCSVConvertor {
 
     convert(input) {
         //First we need to flat the item by putting all the attibut in one level.
-        let flattedConversionItems = input.map((x) => this.flat(x));
+        let allItems = this.extractRelations(input);
+        let flattedConversionItems = allItems.map((x) => this.flat(x));
         let colums = this.getColumnsOf(flattedConversionItems);
         let csvContent = "";
         // First row is columns name
@@ -12,12 +13,26 @@ class UniversalToCSVConvertor {
         csvContent += "\n";
         for (let index = 0; index < flattedConversionItems.length; index++) {
             const row = flattedConversionItems[index];
-            csvContent += this.printRow(row,colums);
-            
+            csvContent += this.printRow(row, colums);
+
         }
-        let csvFile ={};
+        let csvFile = {};
         csvFile["copydeck"] = csvContent;
         return csvFile;
+    }
+
+    extractRelations(items) {
+        let result = [];
+        for (const item of items) {
+            result.push(item);
+            if (item.relation) {
+                let relationKeys = Object.keys(item.relation);
+                for (const key of relationKeys) {
+                    result.push(item.getRelation(key));
+                }
+            }
+        }
+        return result;
     }
 
     flat(conversionItem) {
@@ -48,7 +63,7 @@ class UniversalToCSVConvertor {
 
     getColumnsOf(flattedConversionItems) {
         // Retreive all the keys
-        let columns = [];    
+        let columns = [];
         flattedConversionItems.forEach(flatConversionItem => {
             columns = columns.concat(Object.keys(flatConversionItem));
         });
@@ -57,7 +72,7 @@ class UniversalToCSVConvertor {
         return columns.distinct();
     }
 
-    printRow(item, columns){
+    printRow(item, columns) {
         let row = [];
         for (const column of columns) {
             let value = item[column];
