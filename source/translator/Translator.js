@@ -14,6 +14,12 @@ import CSVToUniversalConvertor from "../convertors/CSVToUniversalConvertor";
 import I18NextToUniversalConvertor from "../convertors/I18NextToUniversalConvertor";
 import ToUniversalConvertor from "../convertors/ToUniversalConvertor";
 
+import '../extension/ArrayExtension'; 
+import '../extension/StringExtension';
+
+const LocalCode = require('locale-code') 
+const ISO6391 = require('iso-639-1') 
+
 class Translator {
     constructor() {
         this.inputFile;
@@ -97,14 +103,52 @@ class Translator {
         return this;
     }
 
-    filter(input) {
-        //TODO
-        return input;
+    filter(regex){
+        if(!regex){
+            return this;
+        }
+        let splittedRegex = regex.split(/\|\||\&\&/);
+        let keys = [];
+        for (const splittedItem of splittedRegex) {
+            let key = splittedItem.split("==")[0]
+            .removeAll('(')
+            .removeAll(')')
+            .trim();
+            keys.push(key);
+        }
+
+        let formattedRegex = regex;
+        for (const key of keys.distinct()) {
+            let formattedKey;
+            if (ISO6391.validate(key) || LocalCode.validate(key)) {
+                formattedKey = "item._values." + key;
+            } else if (key.toLowerCase().includes("_id")) {
+                let startIndex = id.toLowerCase().indexOf("_id");
+                let formattedId = id.substring(0, startIndex).toLowerCase();
+                formattedKey = "item._ids." + formattedId; 
+            } else {
+                formattedKey = "item._meta."+key;
+            }
+
+            formattedRegex = formattedRegex.replaceAll(key,formattedKey);
+        }
+        this.filter = formattedRegex;
+        return this;
+    }
+
+    _filter(input) {
+        let filteredResult = [];
+        for (const item of input) {
+            if(eval(this.filter)){
+                filteredResult.push(item);
+            }
+        }
+        return filteredResult;
     }
 
     translate() {
         return this.toBaseTranslator.convert(this.inputFile).then((x) => {
-            let result = this.fromBaseTranslator.convert(this.filter(x));
+            let result = this.fromBaseTranslator.convert(this._filter(x));
             this.outputFile.file = result;
             return new Promise((resolve,reject) => {
                 resolve(this.outputFile.file);

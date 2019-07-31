@@ -9,42 +9,80 @@ import I18nextIO from "./IO/I18nextIO";
 import ConversionItem from './model/ConversionItem';
 var fs = require("fs");
 
-writeTest('./files/csv/test-sections.csv',"Test Section");
+//writeTest('./files/csv/Filter_test.csv',"Test Filter");
 //testPlatformConversion("Android", "./test/files/simple_test", /<!-- generation time : [0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z-->/g);
 //testPlatformConversion("IOS", "./test/files/simple_test", /.*Generation time :.*[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z.*\n/g);
 //testPlatformConversion("i18Next", "./test/files/test_section");
 //testPlatformConversion("Csv", "./test/files/simple_test");
-testUniversalConversion("Android", "./test/files/simple_test");
+//testUniversalConversion("IOS", "./test/files/test_relation");
+testFilter('Target == "Android"',["ID-002"]);
 
-function writeTest(csvSourcePath, testName){
-    //First we create the universal file;
-    let testFolderPath = "./files/output/tests/" + testName;
+function testFilter(filter,resultId){
     new Translator()
-    .from("Csv")
-    .readFile(csvSourcePath)
+    .from("universal")
+    .readFile("./test/files/universal_items_for_filter.json")
+    .filter(filter)
     .to("universal")
     .translate()
-    .then((x)=>{
-        let writer = new UniversalFileIO();
-        writer.file = x;
-        writer.write(testFolderPath,(e)=>{
-            if(!e){
-                writePlatformTest("Android",testFolderPath);
-                writePlatformTest("IOS",testFolderPath);
-                writePlatformTest("Csv",testFolderPath);
-                writePlatformTest("i18Next",testFolderPath);
-            }
-        });
+    .then((x) => {
+         testIDs(x,resultId);
     });
 }
 
-function writePlatformTest(platform,testFolderPath){
+function testIDs(result, ids){
+    if(result.size != ids.size){
+        return false;
+    }
+    let resultIds = [];
+    for (const resultItems of result) {
+        resultIds.push(resultItems._ids.string);
+    }
+    resultIds.sort((a,b)=> sortAlphabetically(a,b));
+    ids.sort((a,b)=> sortAlphabetically(a,b));
+    for (let index = 0; index < array.length; index++) {
+        if(resultIds[index] != ids[index]){
+            return false;
+        }       
+    }
+    return true;
+}
+
+function sortAlphabetically(a,b){
+    if(a < b) { return -1; }
+    if(a > b) { return 1; }
+    return 0;
+
+}
+
+function writeTest(csvSourcePath, testName) {
+    //First we create the universal file;
+    let testFolderPath = "./files/output/tests/" + testName;
     new Translator()
-    .from("universal")
-    .defineDefaultLang('en')
-    .readFile(testFolderPath + "/universal_items.json")
-    .to(platform)
-    .translateToFile(testFolderPath +"/"+ platform.toLowerCase());
+        .from("Csv")
+        .readFile(csvSourcePath)
+        .to("universal")
+        .translate()
+        .then((x) => {
+            let writer = new UniversalFileIO();
+            writer.file = x;
+            writer.write(testFolderPath, (e) => {
+                if (!e) {
+                    writePlatformTest("Android", testFolderPath);
+                    writePlatformTest("IOS", testFolderPath);
+                    writePlatformTest("Csv", testFolderPath);
+                    writePlatformTest("i18Next", testFolderPath);
+                }
+            });
+        });
+}
+
+function writePlatformTest(platform, testFolderPath) {
+    new Translator()
+        .from("universal")
+        .defineDefaultLang('en')
+        .readFile(testFolderPath + "/universal_items.json")
+        .to(platform)
+        .translateToFile(testFolderPath + "/" + platform.toLowerCase());
 }
 
 function testPlatformConversion(platform, path, regex) {
@@ -77,7 +115,7 @@ function testFileInput(path, platform, result, regex) {
 }
 
 function getInputFileFromUniveralFolder(path, platform) {
-    var completePath = path + "/" + platform.toLowerCase() ;
+    var completePath = path + "/" + platform.toLowerCase();
     var reader;
     switch (platform) {
         case "Android":

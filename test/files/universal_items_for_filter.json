@@ -1,0 +1,47 @@
+[
+    {
+       "_ids":{
+          "string":"ID-001"
+       },
+       "_values":{
+          "en":"String #1"
+       },
+       "_meta":{
+          "Target":"Mobile"
+       }
+    },
+    {
+       "_ids":{
+          "string":"ID-002"
+       },
+       "_values":{
+          "en":"String #2"
+       },
+       "_meta":{
+          "Target":"Android"
+       }
+    },
+    {
+       "_ids":{
+          "string":"ID-003"
+       },
+       "_values":{
+          "en":"String #3"
+       },
+       "_meta":{
+          "Target":"IOS"
+       }
+    },
+    {
+       "_ids":{
+          "string":"ID-004"
+       },
+       "_values":{
+          "en":"String #4"
+       },
+       "_meta":{
+          "Target":"Mobile",
+          "Project":"P1"
+       }
+    }
+ ]
