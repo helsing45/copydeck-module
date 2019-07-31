@@ -43,5 +43,17 @@
           "Target":"Mobile",
           "Project":"P1"
        }
+    },
+    {
+       "_ids":{
+          "string":"ID-005"
+       },
+       "_values":{
+          "en":"String #5"
+       },
+       "_meta":{
+          "Target":"Android",
+          "Project":"P1"
+       }
     }
  ]
