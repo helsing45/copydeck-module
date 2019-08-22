@@ -152,13 +152,15 @@ class Translator {
             this.outputFile.file = result;
             return new Promise((resolve,reject) => {
                 resolve(this.outputFile.file);
-            });;
+            });
         });
     }
 
     translateToFile(outputPath) {
         this.translate().then((result) => {
-            this.outputFile.write(outputPath);
+            this.outputFile.write(outputPath,(err) =>{
+                console.log(err);
+            });
         })
     }
 }
