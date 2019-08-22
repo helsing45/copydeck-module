@@ -2,8 +2,9 @@ import Translator from "../source/translator/Translator";
 
 test("Filter single condition", () => testFilter('Target == "Android"',["ID-002","ID-005"]));
 test("Filter two condition OR", () => testFilter('Target == "Android" || Target == "Mobile"',["ID-001","ID-002","ID-004","ID-005"]));
-test("Filter two condition AND", () => testFilter('Target == "Mobile" || Project == "P1"',["ID-004"]));
+test("Filter two condition AND", () => testFilter('Target == "Mobile" && Project == "P1"',["ID-004"]));
 test("Filter two group of condition", () => testFilter('(Target == "Mobile" || Target == "Android") && Project == "P1"',["ID-004","ID-005"]));
+test("Filter two OR group", () => testFilter('(Target == "Mobile" || Target == "Android") && (Project == "P1" || Project == "All")',["ID-004","ID-005","ID-006"]));
 test("Empty filter", () => testFilter('',["ID-001","ID-002","ID-003","ID-004","ID-005"]));
 test("Undefined filter", () => testFilter(undefined,["ID-001","ID-002","ID-003","ID-004","ID-005"]));
 
@@ -30,7 +31,7 @@ function testIDs(result, ids){
     }
     resultIds.sort((a,b)=> sortAlphabetically(a,b));
     ids.sort((a,b)=> sortAlphabetically(a,b));
-    for (let index = 0; index < array.length; index++) {
+    for (let index = 0; index < ids.length; index++) {
         if(resultIds[index] != ids[index]){
             return false;
         }       

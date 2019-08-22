@@ -7,7 +7,9 @@ import CsvIO from "./IO/CsvIO";
 import I18nextIO from "./IO/I18nextIO";
 
 import ConversionItem from './model/ConversionItem';
+import copydeck from './index.js'
 var fs = require("fs");
+const config = require('../test/files/cli/input/config.json');
 
 //writeTest('./files/csv/Filter_test.csv',"Test Filter");
 //testPlatformConversion("Android", "./test/files/simple_test", /<!-- generation time : [0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z-->/g);
@@ -15,41 +17,67 @@ var fs = require("fs");
 //testPlatformConversion("i18Next", "./test/files/test_section");
 //testPlatformConversion("Csv", "./test/files/simple_test");
 //testUniversalConversion("IOS", "./test/files/test_relation");
-testFilter('Target == "Android"',["ID-002"]);
+//testFilter('Target == "Mobile" && Project == "P1"',["ID-004"]);
+translateToFile(config);
 
-function testFilter(filter,resultId){
-    new Translator()
-    .from("universal")
-    .readFile("./test/files/universal_items_for_filter.json")
-    .filter(filter)
-    .to("universal")
-    .translate()
-    .then((x) => {
-         testIDs(x,resultId);
-    });
+
+function translateToFile(config){
+    return new Translator()
+        .from(config.from)
+        .readFile(config.readPath)
+        .filter(config.filter)
+        .defineDefaultLang(config.defaultLang)
+        .to(config.to)
+        .translateToFile(config.writePath);
 }
 
-function testIDs(result, ids){
-    if(result.size != ids.size){
+
+function translateFromFilePath(fromPlatform, inputPath, filter, toPlatform) {
+    return new Translator()
+        .from(fromPlatform)
+        .readFile(inputPath)
+        .filter(filter)
+        .to(toPlatform)
+        .translate();
+}
+
+function testFilter(filter, resultId) {
+    new Translator()
+        .from("universal")
+        .readFile("./test/files/universal_items_for_filter.json")
+        .filter(filter)
+        .to("universal")
+        .translate()
+        .then((x) => {
+            console.log(testIDs(x, resultId));
+        });
+}
+
+function testIDs(result, ids) {
+    if (result.size != ids.size) {
         return false;
     }
     let resultIds = [];
     for (const resultItems of result) {
         resultIds.push(resultItems._ids.string);
     }
-    resultIds.sort((a,b)=> sortAlphabetically(a,b));
-    ids.sort((a,b)=> sortAlphabetically(a,b));
-    for (let index = 0; index < array.length; index++) {
-        if(resultIds[index] != ids[index]){
+    resultIds.sort((a, b) => sortAlphabetically(a, b));
+    ids.sort((a, b) => sortAlphabetically(a, b));
+    for (let index = 0; index < ids.length; index++) {
+        if (resultIds[index] != ids[index]) {
             return false;
-        }       
+        }
     }
     return true;
 }
 
-function sortAlphabetically(a,b){
-    if(a < b) { return -1; }
-    if(a > b) { return 1; }
+function sortAlphabetically(a, b) {
+    if (a < b) {
+        return -1;
+    }
+    if (a > b) {
+        return 1;
+    }
     return 0;
 
 }
