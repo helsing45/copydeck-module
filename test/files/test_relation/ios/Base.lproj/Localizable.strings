@@ -1,0 +1,8 @@
+/* 
+ Localizable.strings 
+ Generation time : ' 2019-07-30T10:04:47.911Z 
+  */
+
+"STRING_01_SINGULAR" = "cat";
+"STRING_01_PLURAL" = "cats";
+"STRING_02" = "dog";

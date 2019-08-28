@@ -1,1 +1,6 @@
 source
+test
+.vscode
+files
+distribution/app.js
+distribution/app.js.map

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?> 
+  <!-- generation time : 2019-07-30T10:04:47.911Z--> 
+<resources>
+
+	<plurals name="string_01">
+ 		<item quantity="one">cat</item>
+ 		<item quantity="other">cats</item>
+	</plurals>
+	<string name="string_02">dog</string>
+</resources>

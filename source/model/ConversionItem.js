@@ -1,9 +1,28 @@
 class ConversionItem {
-    constructor() {
-        this._ids = {};
-        this._values = {};
-        this._relations;
-        this._meta = {};
+
+    constructor(json) {
+        if (json) {
+            this._ids = json["_ids"];
+            this._values = json["_values"];
+            this._relations = json["_relations"];
+            this._meta = json["_meta"];
+        } else {
+            this._ids = {};
+            this._values = {};
+            this._relations;
+            this._meta = {};
+        }
+    }
+
+    static parse(string) {
+        let json = JSON.parse(string);
+        if (json instanceof Array) {
+            var items = [];
+            for (const item of json) {
+                items.push(new ConversionItem(item));
+            }
+            return items;
+        }
     }
 
     get ids() {
@@ -50,8 +69,15 @@ class ConversionItem {
         this._relations = relation;
     }
 
+    getRelation(key){
+        let obj = this._relations[key];
+        let result = new ConversionItem();
+        Object.assign(result,obj);
+        return result;
+    }
+
     addRelation(type, relatedItem) {
-        if(this._relations === undefined){
+        if (this._relations === undefined) {
             this._relations = {};
         }
         this._relations[type] = relatedItem;

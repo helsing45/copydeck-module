@@ -1,0 +1,7 @@
+/* 
+ Localizable.strings 
+ Generation time : ' 2019-07-26T10:07:05.535Z 
+  */
+
+"STRING_TEST_01" = "Here the first string";
+"STRING_TEST_02" = "Here the second string";

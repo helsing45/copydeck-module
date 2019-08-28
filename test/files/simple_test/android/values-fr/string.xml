@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?> 
+  <!-- generation time : 2019-07-26T10:07:05.535Z--> 
+<resources>
+
+	<string name="string_test_01">Voici la string 1</string>
+	<string name="string_test_02">Voici la string 2</string>
+</resources>

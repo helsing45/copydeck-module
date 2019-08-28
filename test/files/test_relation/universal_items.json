@@ -1,0 +1,1 @@
+[{"_ids":{"string":"string_01"},"_values":{"en":"cat"},"_meta":{"Plural":""},"_relations":{"plural":{"_ids":{"string":"string_01"},"_values":{"en":"cats"},"_meta":{"Plural":"X"}}}},{"_ids":{"string":"string_02"},"_values":{"en":"dog"},"_meta":{"Plural":""}}]

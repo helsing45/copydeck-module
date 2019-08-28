@@ -1,27 +1,22 @@
-import BaseConvertor from './BaseConvertor'
-import ConversionItem from '../model/ConversionItem'
+import ConversionItem from '../model/ConversionItem'; 
+import '../extension/ArrayExtension'; 
+ 
+const csv = require('csvtojson') 
+const LocalCode = require('locale-code') 
+const ISO6391 = require('iso-639-1') 
 
-const csv = require('csvtojson')
-const LocalCode = require('locale-code')
-const ISO6391 = require('iso-639-1')
+class CSVToUniversalConvertor {
 
-/*npm run compile*/
-class CsvConvertor extends BaseConvertor {
-
-    translateToConversionItems(input) {
-        var csvBuilder;
-        if(input["format"] == 'filePath'){
-            csvBuilder = csv().fromFile(input['data']);
-        }else if(input['format']=='string_data' && input['data'].length > 0 && input['data'][0]['data']){
-            csvBuilder = csv().fromString(input['data'][0]['data'])
-        }
-        return csvBuilder.then((json) => {
-            var conversionItems = json.map(x => this._jsonObjectToConversionObject(x));
-            return this._associateRelations(conversionItems);
-        });
+    async convert(input) {
+        //For now CsvMapTransformation doesn't handle multiple file
+        var key = Object.keys(input._files)[0];
+        var csvBuilder = csv().fromString(input._files[key]);
+        const json = await csvBuilder;
+        var conversionItems = json.map(x => this.jsonObjectToConversionObject(x));
+        return this.associateRelations(conversionItems);
     }
 
-    _jsonObjectToConversionObject(json) {
+    jsonObjectToConversionObject(json) {
         var item = new ConversionItem();
         Object.keys(json).forEach(key => {
             if (ISO6391.validate(key) || LocalCode.validate(key)) {
@@ -36,8 +31,7 @@ class CsvConvertor extends BaseConvertor {
         });
         return item;
     }
-
-    _associateRelations(items) {
+    associateRelations(items) {
         var groupedItems = {};
         items.forEach(element => {
             if (!(element.getUniqueId() in groupedItems)) {
@@ -53,25 +47,26 @@ class CsvConvertor extends BaseConvertor {
             if (element.length == 1) {
                 result.push(element[0]);
             } else {
-                result.push(this._handleRelationOf(element));
+                result.push(this.handleRelationOf(element));
             }
         }
         return result;
     }
 
-    _handleRelationOf(items) {
+    handleRelationOf(items) {
         var result = new ConversionItem();
         var hasBeenSetup = false;
 
         for (let index = 0; index < items.length; index++) {
             const element = items[index];
-            var foundRelation = this._findRelation(element);
+            var foundRelation = this.findRelation(element);
             if (!foundRelation) {
                 if (!hasBeenSetup) {
                     result.copy(element);
                     hasBeenSetup = true;
                 } else {
-                    this._warnings.push("Duplicate ID detected");
+                    //TODO handle warning
+                    //this._warnings.push("Duplicate ID detected");
                 }
             } else {
                 result.addRelation(foundRelation.toLowerCase(), element);
@@ -81,13 +76,14 @@ class CsvConvertor extends BaseConvertor {
         return result;
     }
 
-    _findRelation(conversionItem) {
-        if(conversionItem.meta["relation"]){
+    findRelation(conversionItem) {
+        if (conversionItem.meta["relation"]) {
             return conversionItem.meta["relation"];
-        }else if (conversionItem.meta["Plural"]) {
+        } else if (conversionItem.meta["Plural"]) {
             return "Plural";
         }
         return "";
     }
+
 }
-export default CsvConvertor;
+export default CSVToUniversalConvertor;
