@@ -1,6 +1,6 @@
 {
   "name": "copydeck-module",
-  "version": "1.0.0-beta5.8",
+  "version": "1.0.0",
   "description": "This is the base module for all copydeck tools, the website, the CLI, and much more",
   "main": "./distribution/index.js",
   "scripts": {
